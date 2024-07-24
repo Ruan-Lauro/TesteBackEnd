@@ -1,0 +1,21 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model OntData {
+  id      Int    @id @default(autoincrement())
+  slot    Int
+  port    Int
+  ont_id  String
+  sn      String @unique
+  state   String
+  origin  String 
+}
+

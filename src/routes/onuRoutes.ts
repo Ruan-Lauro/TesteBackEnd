@@ -50,9 +50,13 @@ router.post("/", upload.fields([{ name: 'dataOne' }, { name: 'dataTwo' }, { name
       if (files['file'] && Array.isArray(files['file'])) {
         const file = files['file'][0];
         const fileContent = file.buffer.toString('utf-8');
-        data.data = fileContent!;
+        if(fileContent.includes("ONT")){
+          data.data = fileContent!;
+        }else{
+          return res.status(400).json({ error: 'Huawei file not sent' });
+        }
       } else {
-        return res.status(400).json({ error: 'Arquivo Huawei não enviado' });
+        return res.status(400).json({ error: 'Huawei file not sent' });
       }
     } else if (type === 'ZTE') {
       const dataOneFile = files['dataOne'] && Array.isArray(files['dataOne']) ? files['dataOne'][0] : null;
@@ -62,26 +66,26 @@ router.post("/", upload.fields([{ name: 'dataOne' }, { name: 'dataTwo' }, { name
         const dataOneContent = dataOneFile.buffer.toString('utf-8');
         const dataTwoContent = dataTwoFile.buffer.toString('utf-8');
 
-        //Verificar se não é o mesmo arquivo ou se tem a mesma estrutura
+        //Checks if it is not the same file or if it has the same structure
         if((dataOneContent.includes("Channel") && dataTwoContent.includes("Channel")) || (dataOneContent.includes("Channel") == false && dataTwoContent.includes("Channel") == false)){
           if(dataOneContent.includes("Channel") && dataTwoContent.includes("Channel")){
-            return res.status(400).json({ error: 'Arquivos ZTE iguais ou com mesmo'});
+            return res.status(400).json({ error: 'ZTE files the same or with the same'});
           }else{
-            return res.status(400).json({ error: 'Arquivos ZTE faltando o complemento' });
+            return res.status(400).json({ error: 'ZTE files missing add-on' });
           };
         };
 
-        //O primeiro é o que não tem Channel, para que eu consiga ler o arquivo correto
+        //The first one is the one without Chanel, so I can read the correct file
         if(dataOneContent.includes("Channel")){
           data.data = { dataOne: dataTwoContent!, dataTwo: dataOneContent! };
         }else{
           data.data = { dataOne: dataOneContent!, dataTwo: dataTwoContent! };
         };
       } else {
-        return res.status(400).json({ error: 'Arquivos ZTE não enviados' });
+        return res.status(400).json({ error: 'ZTE files not uploaded' });
       };
     } else {
-      return res.status(400).json({ error: 'Tipo inválido' });
+      return res.status(400).json({ error: 'Invalid type' });
     };
     const { statusCode, body } = await new onuService(repositoryOnu).createOnu(data);
     res.status(statusCode).json(body);

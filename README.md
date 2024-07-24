@@ -40,4 +40,5 @@ Para acessar a API:
 - [Express](https://expressjs.com/pt-br/) - Framework para aplicativos web Node.js.
 - [Typescript](https://www.typescriptlang.org/) - Superset JavaScript.
 - [Prisma](https://www.prisma.io/?via=start&gad_source=1) - ORM para banco de dados.
+- [Postgresql](https://github.com/Ruan-Lauro/TesteFrontEnd) - Banco de dados.
 

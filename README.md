@@ -4,6 +4,7 @@ Aplicação que ler os arquivos dados pela OLTs
 ## Pré-requisitos
 - [Node.js](https://nodejs.org/en)
 - IDE (Recomendamos [VsCode](https://code.visualstudio.com/))
+- [Frontend](https://github.com/Ruan-Lauro/TesteFrontEnd)
 
 ## Instalação
 Baixar o projeto:
